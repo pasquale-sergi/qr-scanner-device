@@ -26,12 +26,12 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="device"
+        name="scan"
         options={{
-          title: "Device",
+          title: "Scan",
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <Ionicons name="hardware-chip" size={24} color={color} />
+            <Ionicons name="barcode" size={24} color={color} />
           ),
         }}
       />

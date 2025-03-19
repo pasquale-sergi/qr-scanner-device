@@ -1,58 +1,90 @@
-import { Link } from "expo-router";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Link, useRouter } from "expo-router";
+import { Text, View, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 export default function Index() {
-  const username = "John"; // Replace with dynamic username if available
-
+  const username = "Pasquale"; // Replace with dynamic username if available
+  const router = useRouter();
+  
   return (
-    <View style={styles.container}>
-      {/* Welcome Message */}
-      <Text style={styles.welcomeText}>Welcome, {username}!</Text>
-      <Text style={styles.subtitle}>
-        Manage your inventory with ease. What would you like to do today?
-      </Text>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+        {/* Welcome Message */}
+        <Text style={styles.welcomeText}>Welcome, {username}!</Text>
+        <Text style={styles.subtitle}>
+          Manage your inventory with ease. What would you like to do today?
+        </Text>
 
-      {/* Buttons */}
-      <View style={styles.buttonContainer}>
-        {/* Scan Product Button */}
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Scan Product</Text>
-        </TouchableOpacity>
+        {/* Action Buttons */}
+        <View style={styles.buttonGrid}>
+          {/* Top Row - 2 boxes */}
+          <View style={styles.row}>
+            {/* View Inventory */}
+            <Link href="/inventory" asChild>
+              <TouchableOpacity style={styles.box}>
+                <Ionicons name="list" size={40} color="#FFFFFF" />
+                <Text style={styles.boxText}>View Inventory</Text>
+              </TouchableOpacity>
+            </Link>
 
-        {/* Manage Categories Button */}
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Manage Categories</Text>
-        </TouchableOpacity>
+            {/* Scan Product */}
+            <TouchableOpacity style={styles.box} onPress={() => router.push("/scan")}>
+              <MaterialIcons name="qr-code-scanner" size={40} color="#FFFFFF" />
+              <Text style={styles.boxText}>Scan Product</Text>
+            </TouchableOpacity>
+          </View>
 
-        {/* View Inventory Button */}
-        <Link href="/inventory" asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>View Inventory</Text>
-          </TouchableOpacity>
-        </Link>
+          {/* Middle Row - 1 wide box */}
+          <View style={styles.row}>
+            {/* Manage Categories */}
+            <TouchableOpacity style={styles.wideBox}>
+              <Ionicons name="grid" size={40} color="#FFFFFF" />
+              <Text style={styles.boxText}>Manage Categories</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Bottom Row - 2 boxes */}
+          <View style={styles.row}>
+            {/* Connected Devices */}
+            <TouchableOpacity style={styles.box}>
+              <Ionicons name="hardware-chip" size={40} color="#FFFFFF" />
+              <Text style={styles.boxText}>Connected Devices</Text>
+            </TouchableOpacity>
+
+            {/* Low Stock Alerts */}
+            <Link href="/stock_alert" asChild>
+            <TouchableOpacity style={styles.box}>
+              <Ionicons name="alert-circle" size={40} color="#FFFFFF" />
+              <Text style={styles.boxText}>Low Stock Alerts</Text>
+            </TouchableOpacity>
+            </Link>
+          </View>
+        </View>
       </View>
-
-      {/* Footer */}
-      <Text style={styles.footerText}>
-        Keep track of your items and stay organized!
-      </Text>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  scrollContainer: {
+    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F8F8F8",
+    paddingVertical: 20,
+  },
+  container: {
+    marginTop: 60,
+    flex: 1,
+    width: "100%",
     paddingHorizontal: 20,
+    alignItems: "center",
   },
   welcomeText: {
     fontSize: 28,
     fontWeight: "bold",
     color: "#333333",
     marginBottom: 10,
+    textAlign: "center",
   },
   subtitle: {
     fontSize: 16,
@@ -60,32 +92,46 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 30,
   },
-  buttonContainer: {
+  buttonGrid: {
     width: "100%",
-    alignItems: "center",
   },
-  button: {
-    width: "80%",
-    paddingVertical: 15,
-    backgroundColor: "#007AFF",
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginBottom: 20,
+  },
+  box: {
+    width: "48%", // Slightly less than half to allow for spacing
+    aspectRatio: 1, // Makes the box square
+    backgroundColor: "#5e35b1", // Purple color from the image
     borderRadius: 10,
+    justifyContent: "center",
     alignItems: "center",
-    marginBottom: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 2,
   },
-  buttonText: {
+  wideBox: {
+    width: "100%", // Full width
+    aspectRatio: 2.5, // Wider and shorter
+    backgroundColor: "#5e35b1", // Purple color from the image
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
+  },
+  boxText: {
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",
-  },
-  footerText: {
-    fontSize: 14,
-    color: "#999999",
+    marginTop: 10,
     textAlign: "center",
-    marginTop: 30,
   },
 });

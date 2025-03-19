@@ -9,6 +9,14 @@ export default function RootLayout() {
         name="(tabs)"
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="stock_alert"
+        options={{ 
+          headerShown: false, // Hide the default header since we have a custom one
+          presentation: "card", // This gives a card-like animation
+          animation: "slide_from_right" // Slide animation from right
+        }}
+      />
     </Stack>
   );
 }
