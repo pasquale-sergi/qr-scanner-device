@@ -25,7 +25,8 @@ public class ApplicationUser{
     @Column(unique = true, nullable = false)
     private String email;
 
-
+    @OneToMany(mappedBy = "user")
+    private List<Product> products;
 
     public ApplicationUser(Long id,String email, String username, String password) {
         this.id = id;
