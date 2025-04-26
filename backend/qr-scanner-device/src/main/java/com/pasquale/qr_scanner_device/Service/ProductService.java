@@ -2,6 +2,7 @@ package com.pasquale.qr_scanner_device.Service;
 
 import com.pasquale.qr_scanner_device.Entity.ApplicationUser;
 import com.pasquale.qr_scanner_device.Entity.Product;
+import com.pasquale.qr_scanner_device.MongoDB.ProductDocument;
 import com.pasquale.qr_scanner_device.Repository.ProductRepository;
 import com.pasquale.qr_scanner_device.Repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -20,7 +21,7 @@ public class ProductService {
     @Autowired
     private UserRepository userRepository;
 
-    public Optional<Product> findByBarcode(String barcode) {
+    public Optional<Product> findByBarcode(Long barcode) {
         return productRepository.findByBarcode(barcode);
     }
 
@@ -32,31 +33,36 @@ public class ProductService {
 
     //save scanned product for user
     @Transactional
-    public Product saveScannedProduct(String barcode, Long userId) {
+    public Product saveScannedProduct(String barcode, ProductDocument genericInfo, Long userId) {
         ApplicationUser user = userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User Not Found"));
-        Optional<Product> product = productRepository.findByBarcode(barcode);
 
-        if (product.isPresent()) {
-            if (productRepository.existsByBarcodeAndUser(product.get().getBarcode(), user)){
-                Product userProduct = product.get();
-                userProduct.setQuantity(userProduct.getQuantity() + 1);
-                return productRepository.save(userProduct);
-            }else {
-                Product newProduct = new Product();
-                newProduct.setBarcode(barcode);
-                newProduct.setName(product.get().getName());
-                newProduct.setQuantity(product.get().getQuantity());
-                newProduct.setUser(user);
-                newProduct.setPrice(product.get().getPrice());
-                newProduct.setDescription(product.get().getDescription());
-                return productRepository.save(newProduct);
+
+        Optional<Product> existingProduct = productRepository.findByUser(user).stream().filter(p -> p.getBarcode().equals(barcode)).findFirst();
+
+        if (existingProduct.isPresent()) {
+            Product product = existingProduct.get();
+            product.setQuantity(product.getQuantity() + 1);
+            System.out.println("Incrementing quantity for product " + product.getBarcode());
+            return productRepository.save(product);
+        }else {
+            if(genericInfo == null) {
+                throw new RuntimeException("Generic Info Not Found");
+
             }
+
+            Product newProduct = new Product();
+            newProduct.setBarcode(Long.parseLong(barcode));
+            newProduct.setName(genericInfo.getName());
+            newProduct.setQuantity(1);
+            newProduct.setUser(user);
+            newProduct.setBrand(genericInfo.getBrand());
+            System.out.println("Saving new product " + newProduct.getBarcode());
+            return productRepository.save(newProduct);
         }
-        return null;
     }
 
     //delete a product
-    public Product deleteProduct(String barcode, Long userId) {
+    public Product deleteProduct(Long barcode, Long userId) {
         ApplicationUser user = userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User Not Found"));
         Optional<Product> product = productRepository.findByBarcode(barcode);
         if (product.isPresent()) {

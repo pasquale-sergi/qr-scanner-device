@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    Optional<Product> findByBarcode(String barcode);
+    Optional<Product> findByBarcode(Long barcode);
     List<Product> findByUser(ApplicationUser user);
-    Boolean existsByBarcodeAndUser(String barcode, ApplicationUser user);
+    Boolean existsByBarcodeAndUser(Long barcode, ApplicationUser user);
 }
