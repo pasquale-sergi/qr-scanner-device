@@ -21,7 +21,7 @@ public class ProductService {
     @Autowired
     private UserRepository userRepository;
 
-    public Optional<Product> findByBarcode(Long barcode) {
+    public Optional<Product> findByBarcode(String barcode) {
         return productRepository.findByBarcode(barcode);
     }
 
@@ -37,7 +37,7 @@ public class ProductService {
         ApplicationUser user = userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User Not Found"));
 
 
-        Optional<Product> existingProduct = productRepository.findByUser(user).stream().filter(p -> p.getBarcode().equals(barcode)).findFirst();
+        Optional<Product> existingProduct = productRepository.findFirstByUserAndBarcode(user, barcode);
 
         if (existingProduct.isPresent()) {
             Product product = existingProduct.get();
@@ -51,7 +51,7 @@ public class ProductService {
             }
 
             Product newProduct = new Product();
-            newProduct.setBarcode(Long.parseLong(barcode));
+            newProduct.setBarcode(barcode);
             newProduct.setName(genericInfo.getName());
             newProduct.setQuantity(1);
             newProduct.setUser(user);
@@ -62,7 +62,7 @@ public class ProductService {
     }
 
     //delete a product
-    public Product deleteProduct(Long barcode, Long userId) {
+    public Product deleteProduct(String barcode, Long userId) {
         ApplicationUser user = userRepository.findById(userId).orElseThrow(()-> new RuntimeException("User Not Found"));
         Optional<Product> product = productRepository.findByBarcode(barcode);
         if (product.isPresent()) {

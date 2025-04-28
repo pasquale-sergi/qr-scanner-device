@@ -72,6 +72,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/api/auth/**").permitAll();
                     auth.requestMatchers("/api/test/**").permitAll();
+                    auth.requestMatchers("/ws-barcode/**").permitAll();
+
                     auth.anyRequest().authenticated();
                 });
 

@@ -15,7 +15,7 @@ public class Product {
     private Long id;
 
     @Column(nullable = false)
-    private Long barcode;
+    private String barcode;
     private String name;
     private int quantity;
 
@@ -29,7 +29,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long barcode, String name, int quantity, String brand, ApplicationUser user) {
+    public Product(String barcode, String name, int quantity, String brand, ApplicationUser user) {
         this.barcode = barcode;
         this.name = name;
         this.quantity = quantity;
