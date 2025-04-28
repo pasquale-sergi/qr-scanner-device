@@ -1,4 +1,3 @@
-// src/screens/InventoryScreen.js
 import React, { useState } from 'react';
 import {
   View,
@@ -9,14 +8,13 @@ import {
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
+import BarcodeListener from '../services/WebSocket';
 
 // Sample data for products
 const products = [
   { id: '1', name: 'Milk', category: 'Dairy', status: 'Open', dueIn: '2d' },
   { id: '2', name: 'Eggs', category: 'Dairy', status: 'Open', dueIn: '5d' },
-  { id: '3', name: 'Apples', category: 'Fruits', status: 'Open', dueIn: '1d' },
-  { id: '4', name: 'Carrots', category: 'Vegetables', status: 'Open', dueIn: '7d' },
-  { id: '5', name: 'Chicken Breast', category: 'Meat', status: 'Open', dueIn: '3d' },
+
 ];
 
 // Categories for tabs
@@ -87,6 +85,11 @@ const InventoryScreen = ({ navigation }) => {
             </Text>
           </TouchableOpacity>
         ))}
+      </View>
+
+      <View style={styles.liveFeedContainer}>
+
+        <BarcodeListener />
       </View>
 
       {/* Product List */}
