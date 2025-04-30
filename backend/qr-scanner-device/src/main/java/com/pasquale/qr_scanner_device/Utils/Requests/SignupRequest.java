@@ -1,4 +1,4 @@
-package com.pasquale.qr_scanner_device.Utils;
+package com.pasquale.qr_scanner_device.Utils.Requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

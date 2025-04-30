@@ -1,4 +1,4 @@
-package com.pasquale.qr_scanner_device.Utils;
+package com.pasquale.qr_scanner_device.Utils.Responses;
 
 import lombok.Getter;
 import lombok.Setter;

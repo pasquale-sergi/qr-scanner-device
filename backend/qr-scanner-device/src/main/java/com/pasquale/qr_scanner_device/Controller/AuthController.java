@@ -4,9 +4,9 @@ import com.pasquale.qr_scanner_device.Auth.JwtUtils;
 import com.pasquale.qr_scanner_device.Entity.ApplicationUser;
 import com.pasquale.qr_scanner_device.Repository.UserRepository;
 import com.pasquale.qr_scanner_device.Service.UserDetailsImpl;
-import com.pasquale.qr_scanner_device.Utils.JwtResponse;
-import com.pasquale.qr_scanner_device.Utils.LoginRequest;
-import com.pasquale.qr_scanner_device.Utils.SignupRequest;
+import com.pasquale.qr_scanner_device.Utils.Responses.JwtResponse;
+import com.pasquale.qr_scanner_device.Utils.Requests.LoginRequest;
+import com.pasquale.qr_scanner_device.Utils.Requests.SignupRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
 @RequestMapping("api/auth")
 public class AuthController {
